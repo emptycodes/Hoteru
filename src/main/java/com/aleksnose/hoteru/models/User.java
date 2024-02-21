@@ -1,43 +1,43 @@
 package com.aleksnose.hoteru.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
+@Table(name = "User")
 public class User {
+
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer Id;
-    private String Name;
-    private String Surname;
-    private Boolean IsWorker;
+    @Column(name = "Id", nullable = false)
+    private Integer id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "IdUser")
-    private Set<WorkerInHotel> workersInHotels;
+    @Size(max = 20)
+    @NotNull
+    @Column(name = "Name", nullable = false, length = 20)
+    private String name;
 
-    public void setWorkersInHotels(Set<WorkerInHotel> workersInHotels) {
-        this.workersInHotels = workersInHotels;
-    }
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "Surname", nullable = false, length = 50)
+    private String surname;
 
-    public Set<WorkerInHotel> getWorkersInHotels() {
-        return workersInHotels;
-    }
+    @NotNull
+    @Column(name = "IsWorker", nullable = false)
+    private Boolean isWorker = false;
 
-    public String getName() {
-        return Name;
-    }
+    @OneToMany(mappedBy = "idUser")
+    private Set<Reservation> reservations = new LinkedHashSet<>();
 
-    public String getSurname() {
-        return Surname;
-    }
+    @OneToMany(mappedBy = "idUser")
+    private Set<WorkerInHotel> workerInHotels = new LinkedHashSet<>();
 
-    public Boolean getWorker() {
-        return IsWorker;
-    }
 }

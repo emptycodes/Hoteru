@@ -31,22 +31,5 @@ public class UserController {
     public @ResponseBody Iterable<User> getAllUsers() {
         return repository.findAll();
     }
-
-    @GetMapping(path="/worker/{id}")
-    public Set<WorkerInHotel> getWorker(@PathVariable long id) throws InvalidClassException {
-
-        Optional<User> user = repository.findById(id);
-
-        if (user.isPresent())
-        {
-            if (user.get().getIsWorker())
-            {
-                return repository.findById(id).get().getWorkersInHotels();
-            }
-
-            throw new InvalidClassException("Isn't worker");
-        }
-
-        throw new InvalidClassException("Don't have user");
-    }
 }
+

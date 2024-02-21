@@ -1,29 +1,33 @@
 package com.aleksnose.hoteru.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@Table(name = "WorkerInHotel")
 public class WorkerInHotel {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer IdWorkerInHotel;
-    private Integer IdHotel;
-    private Integer IdUser;
-    private boolean IsAdmin;
+    @Column(name = "IdWorkerInHotel", nullable = false)
+    private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="IdUser", referencedColumnName = "Id", insertable = false, updatable = false)
-    private User user;
+    @NotNull
+    @Column(name = "IsAdmin", nullable = false)
+    private Boolean isAdmin = false;
 
-    public User getUser() {
-        return user;
-    }
+    @NotNull
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "IdHotel", nullable = false)
+    private Hotel idHotel;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    @NotNull
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "IdUser", nullable = false)
+    @JsonIgnore
+    private User idUser;
+
 }
